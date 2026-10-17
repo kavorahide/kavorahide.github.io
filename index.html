@@ -6,7 +6,7 @@
 <meta name="description" content="كافورا: سجاد جلدي وحقائب وقطع ديكور من الجلد الطبيعي بصنعة مصرية. اطلب عبر واتساب، شحن داخل مصر وخارجها. Natural leather rugs, bags and decor made in Egypt.">
 <meta name="theme-color" content="#141414">
 <link rel="canonical" href="https://kavorahide.github.io/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23141414'/%3E%3Ctext x='32' y='45' font-size='40' text-anchor='middle' fill='%23d3b07a' font-family='Georgia,serif' font-weight='700'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="./assets/images/favicon.svg" type="image/svg+xml"><link rel="icon" href="./assets/images/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kavora Shop">
 <meta property="og:title" content="Kavora Shop | جلود طبيعية بصنعة مصرية">
@@ -16,7 +16,7 @@
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="ar_EG">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Kavora Hide", "url": "https://kavorahide.github.io/", "logo": "https://kavorahide.github.io/assets/images/logo.png", "description": "Egyptian manufacturer and exporter of natural leather", "sameAs": ["https://www.instagram.com/kavorahide/", "https://www.facebook.com/share/1DgfnpPas4/"], "contactPoint": {"@type": "ContactPoint", "telephone": "+201001684019", "contactType": "sales", "availableLanguage": ["Arabic", "English"]}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Kavora Hide", "url": "https://kavorahide.github.io/", "logo": "https://kavorahide.github.io/assets/images/icon-512.png", "description": "Egyptian manufacturer and exporter of natural leather", "sameAs": ["https://www.instagram.com/kavorahide/", "https://www.facebook.com/share/1DgfnpPas4/"], "contactPoint": {"@type": "ContactPoint", "telephone": "+201001684019", "contactType": "sales", "availableLanguage": ["Arabic", "English"]}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
@@ -43,10 +43,9 @@ img{display:block}
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:8px 16px}
 .bar .wrap{display:flex;align-items:center;gap:8px}
 .logo{font-family:var(--f-en-display);font-weight:700;font-size:22px;letter-spacing:.3em;text-decoration:none;margin-inline-end:auto}
-.logo img{display:block;width:132px;height:34px;object-fit:contain}
-.dtop .logo img{width:120px;height:31px}
-:root[data-theme="dark"] .logo img{filter:invert(1)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo img{filter:invert(1)}}
+.logo img{display:block;width:auto;height:34px}.logo .lg-d{display:none}
+.dtop .logo img{width:auto;height:30px}
+:root[data-theme="dark"] .logo .lg-l{display:none}:root[data-theme="dark"] .logo .lg-d{display:block}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo .lg-l{display:none}:root:not([data-theme="light"]) .logo .lg-d{display:block}}
 .logo small{font-family:var(--f-body);font-size:10px;letter-spacing:.3em;color:var(--muted);font-weight:500;margin-inline-start:6px}
 .pill{border:0;background:transparent;padding:6px 10px;font-size:13px;letter-spacing:.06em;min-height:40px}
 .pill:hover{color:var(--accent)}
@@ -289,7 +288,7 @@ html[dir="rtl"] .lbnav span{display:inline-block;transform:scaleX(-1)}
 </style>
 </head><body>
 <div class="bar"><div class="wrap">
-  <a class="logo" href="#top" id="logo"><img src="./assets/images/logo.png" width="132" height="34" alt="Kavora Hide"></a>
+  <a class="logo" href="#top" id="logo"><img class="lg-l" src="./assets/images/logo-header.png" width="152" height="34" alt="Kavora Hide"><img class="lg-d" src="./assets/images/logo-header-dark.png" width="152" height="34" alt="" aria-hidden="true"></a>
   <button class="pill" id="admBtn" type="button" hidden>تعديل المتجر</button>
   <button class="pill" id="langBtn" type="button" aria-label="Language">EN</button>
   <button class="pill cartbtn" id="cartBtn" type="button"><span id="cartLbl"></span><b id="cartN">0</b></button>
@@ -462,6 +461,7 @@ var XT={
   cartSub:"المجموع الإرشادي", cartExcl:"لا يشمل الشحن أو الضرائب أو الرسوم أو المنتجات «السعر عند الطلب».", est:"تقدير", sizeLbl:"المقاس", perPiece:"للقطعة",
   privFx:["عملة العرض","للزوّار من مصر نعرض السعر بالجنيه المصري بعد تحويله من السعر بالدولار، ولذلك يطلب متصفحك سعر الصرف من خدمة عامة (Frankfurter، وبديلها ExchangeRate-API) دون إرسال أي بيانات من نماذج الطلب. تُحدَّد عملة العرض من إعدادات جهازك ولا نحفظ موقعك."],
   payEgOnly:"الدفع عند الاستلام وإنستاباي والمحافظ الإلكترونية متاحة للطلبات داخل مصر فقط.",
+  payDetH:"بيانات الدفع (داخل مصر فقط)", payDetNote:"لا تحوّل أي مبلغ قبل أن نؤكد لك الطلب والسعر والشحن برد مكتوب. بعد التحويل أرسل لنا لقطة الإيصال، ولا يُعد الطلب مؤكدًا إلا بعد التحقق من وصول المبلغ.",
   msgTitle:"طلب أولي جديد من متجر Kavora (غير مؤكد)", msgIndic:"السعر الإرشادي", msgSub:"المجموع الإرشادي", msgNoteSub:"لا يشمل الشحن والضرائب والرسوم، وليس عرض سعر ملزمًا.", msgDest:"الدولة المختارة", msgCur:"عملة العرض"
  },
  en:{
@@ -500,6 +500,7 @@ var XT={
   cartSub:"Indicative subtotal", cartExcl:"Excludes shipping, taxes, duties and items marked price on request.", est:"estimate", sizeLbl:"Size", perPiece:"each",
   privFx:["Display currency","For visitors in Egypt we show prices in Egyptian pounds converted from the USD price, so your browser requests the exchange rate from a public service (Frankfurter, with ExchangeRate-API as a backup) without sending any order-form data. The display currency is inferred from your device settings and we do not store your location."],
   payEgOnly:"Cash on delivery, InstaPay and mobile wallets are available for orders inside Egypt only.",
+  payDetH:"Payment details (inside Egypt only)", payDetNote:"Do not transfer any amount until we confirm the order, price and shipping in a written reply. After you pay, send us the receipt; the order is confirmed only once we verify that the funds were received.",
   msgTitle:"New order request from Kavora Shop (not confirmed)", msgIndic:"Indicative price", msgSub:"Indicative subtotal", msgNoteSub:"Excludes shipping, taxes and duties. Not a binding quotation.", msgDest:"Selected country", msgCur:"Display currency"
  }
 };
@@ -713,7 +714,7 @@ function waDirect(){
 }
 function renderDetail(){
   var p=cur, L=T[lang], ci=colorIdx(p,sel), n=(p.imgs||[]).length;
-   var h='<div class="dtop"><a class="logo" href="#top" data-close="1"><img src="./assets/images/logo.png" width="120" height="31" alt="Kavora Hide"></a><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></div><div class="dbody"><div class="gal"><div class="gscroll" id="gscroll">';
+   var h='<div class="dtop"><a class="logo" href="#top" data-close="1"><img class="lg-l" src="./assets/images/logo-header.png" width="134" height="30" alt="Kavora Hide"><img class="lg-d" src="./assets/images/logo-header-dark.png" width="134" height="30" alt="" aria-hidden="true"></a><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></div><div class="dbody"><div class="gal"><div class="gscroll" id="gscroll">';
   if(n)h+=p.imgs.map(function(s,i){return '<img src="'+s+'" alt="'+esc(p[lang].n)+'" data-zoom="'+i+'" tabindex="0" role="button" aria-label="'+esc(p[lang].n+" — "+xt("lbLabel"))+'">'}).join("");
   else h+=art(p,ci,"d");
   h+='</div>'+(n?'<span class="aichip">'+esc(L.imgNote)+'</span><span class="zhint">'+esc(xt("zoomHint"))+'</span>':"")+(n>1?'<span class="gcount" id="gcount">1 / '+n+'</span>':"")+'</div>'+(n?'<p class="aicap">'+esc(L.imgNoteLong)+'</p>':"")+'<div class="dinfo"><h2 id="dTitle">'+esc(p[lang].n)+'</h2>'+detailPrice(p);
@@ -788,7 +789,7 @@ function renderPanel(){
     var msg=buildMsg();
     h+='<header><h2 id="pTitle">'+esc(L.doneH)+'</h2><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></header>';
     var doneNote=orderSubmission.status==="saved"?L.savedOrderNote:(orderSubmission.status==="unconfirmed"?L.unconfirmedOrderNote:L.manualOrderNote);
-    h+='<p class="note" style="font-size:15px">'+esc(xt("statusNote"))+'</p><p class="note" style="font-size:15px">'+esc(doneNote)+'</p><div class="done"><pre id="msgPre"></pre><div class="acts"><a class="btn" id="waOrderSend" target="_blank" rel="noopener" href="https://wa.me/'+esc(D.wa)+'?text='+encodeURIComponent(msg)+'">'+esc(L.send)+'</a><button type="button" class="btn alt" data-copymsg="1">'+esc(L.copyMsg)+'</button>'+(orderSubmission.status==="manual_only"?'<button type="button" class="btn alt" data-go="form">'+esc(L.edit)+"</button>":"")+'</div></div>';
+    h+='<p class="note" style="font-size:15px">'+esc(xt("statusNote"))+'</p>'+((!abroad()&&(form.pay==="insta"||form.pay==="wallet"))?payDetailsHtml(form.pay):"")+'<p class="note" style="font-size:15px">'+esc(doneNote)+'</p><div class="done"><pre id="msgPre"></pre><div class="acts"><a class="btn" id="waOrderSend" target="_blank" rel="noopener" href="https://wa.me/'+esc(D.wa)+'?text='+encodeURIComponent(msg)+'">'+esc(L.send)+'</a><button type="button" class="btn alt" data-copymsg="1">'+esc(L.copyMsg)+'</button>'+(orderSubmission.status==="manual_only"?'<button type="button" class="btn alt" data-go="form">'+esc(L.edit)+"</button>":"")+'</div></div>';
   }
   $("panel").innerHTML=h;
   if(step==="done")$("msgPre").textContent=buildMsg();
@@ -1325,9 +1326,16 @@ function infoExtra(k){
     h+=[xt("dest1"),xt("dest2"),xt("dest3"),xt("dest4"),xt("dest5"),xt("wholesale")].map(function(s){return "<p>"+esc(s)+"</p>"}).join("");
   }
   if(k==="pay"){
-    h+="<h3>"+esc(xt("payFlowH"))+'</h3><ol class="flowsteps">'+xt("flow").map(function(s){return "<li>"+esc(s)+"</li>"}).join("")+"</ol><p>"+esc(xt("proof"))+"</p>";
+    h+="<h3>"+esc(xt("payFlowH"))+'</h3><ol class="flowsteps">'+xt("flow").map(function(s){return "<li>"+esc(s)+"</li>"}).join("")+"</ol><p>"+esc(xt("proof"))+"</p>"+payDetailsHtml();
   }
   return h;
+}
+function payDetailsHtml(only){
+  var pc=SITE_CONFIG.payment||{},rows=[];
+  if(pc.instapay&&(!only||only==="insta"))rows.push([lab(PAY,"insta"),pc.instapay]);
+  if(pc.wallet&&(!only||only==="wallet"))rows.push([lab(PAY,"wallet"),pc.wallet]);
+  if(!rows.length)return "";
+  return "<h3>"+esc(xt("payDetH"))+"</h3><p>"+esc(xt("payDetNote"))+"</p><ul>"+rows.map(function(r){return "<li><b>"+esc(r[0])+":</b> <bdi dir=\"ltr\">"+esc(r[1])+"</bdi></li>"}).join("")+"</ul>";
 }
 /* --- image viewer --- */
 var lb={on:false,i:0,srcs:[],alt:"",s:1,x:0,y:0,opener:null,ptr:{},d0:0,s0:1,sx:0,sy:0,x0:0,y0:0,moved:false};
