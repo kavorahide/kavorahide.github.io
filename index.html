@@ -291,7 +291,6 @@ html[dir="rtl"] .lbnav span{display:inline-block;transform:scaleX(-1)}
 <div class="bar"><div class="wrap">
   <a class="logo" href="#top" id="logo"><img src="./assets/images/logo.png" width="132" height="34" alt="Kavora Hide"></a>
   <button class="pill" id="admBtn" type="button" hidden>تعديل المتجر</button>
-  <button class="pill reg" id="regBtn" type="button" aria-haspopup="dialog"></button>
   <button class="pill" id="langBtn" type="button" aria-label="Language">EN</button>
   <button class="pill cartbtn" id="cartBtn" type="button"><span id="cartLbl"></span><b id="cartN">0</b></button>
 </div></div>
@@ -336,7 +335,6 @@ html[dir="rtl"] .lbnav span{display:inline-block;transform:scaleX(-1)}
 <aside class="sheet panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle"></aside>
 <section class="sheet info" id="info" role="dialog" aria-modal="true" aria-labelledby="iTitle"></section>
 <section class="sheet admin" id="admin" role="dialog" aria-modal="true" aria-label="إدارة المتجر"></section>
-<section class="sheet region" id="region" role="dialog" aria-modal="true" aria-labelledby="rTitle"></section>
 <div class="lb" id="lb" role="dialog" aria-modal="true" hidden><div class="lbtop"><span id="lbCount" aria-live="polite"></span><div class="lbtools"><button type="button" id="lbOut">−</button><button type="button" id="lbIn">+</button><button type="button" id="lbReset">1:1</button><button type="button" id="lbX">×</button></div></div><div class="lbstage" id="lbStage"><img id="lbImg" alt="" draggable="false"></div><button type="button" class="lbnav p" id="lbPrev"><span>‹</span></button><button type="button" class="lbnav n" id="lbNext"><span>›</span></button><p class="lbhint" id="lbHint"></p></div>
 <div class="toast" id="toast" role="status"></div>
 <aside class="analytics-consent" id="analyticsConsent" hidden role="dialog" aria-live="polite">
@@ -367,11 +365,11 @@ var ARTI = null, STATIC = false;
 var CUR = {ar:"ج.م", en:"EGP"};
 
 var PAY = [
- {k:"card",ar:"بطاقة بنكية (فيزا / ماستركارد / ميزة)",en:"Bank card (Visa / Mastercard / Meeza)",da:"نرسل لك تعليمات الدفع بالبطاقة بعد تأكيد الطلب",de:"We send card payment instructions after the order is confirmed"},
- {k:"insta",ar:"إنستاباي",en:"InstaPay",da:"نرسل لك بيانات التحويل بعد تأكيد الطلب",de:"We send transfer details once the order is confirmed"},
- {k:"wallet",ar:"محفظة إلكترونية",en:"Mobile wallet",da:"نرسل لك رقم المحفظة بعد تأكيد الطلب",de:"We send the wallet number once the order is confirmed"},
- {k:"bank",ar:"حوالة بنكية دولية",en:"International bank transfer",da:"تفاصيل الحساب في عرض السعر أو الفاتورة المبدئية",de:"Account details are given in the quotation or pro forma invoice"},
- {k:"cod",ar:"الدفع عند الاستلام",en:"Cash on delivery",da:"داخل مصر فقط",de:"Egypt only"}
+ {k:"bank",ar:"حوالة بنكية",en:"Bank transfer",da:"تُؤكَّد التفاصيل في عرض السعر أو الفاتورة المبدئية",de:"Details confirmed in the quotation or pro forma invoice"},
+ {k:"card",ar:"بطاقة بنكية",en:"Bank card",da:"إن كانت متاحة، وتُؤكَّد بعد تأكيد الطلب",de:"If available, confirmed after the order is confirmed"},
+ {k:"insta",ar:"إنستاباي",en:"InstaPay",da:"إن كان متاحًا، ويُؤكَّد بعد تأكيد الطلب",de:"If available, confirmed after the order is confirmed"},
+ {k:"wallet",ar:"محفظة إلكترونية",en:"Mobile wallet",da:"إن كانت متاحة، وتُؤكَّد بعد تأكيد الطلب",de:"If available, confirmed after the order is confirmed"},
+ {k:"cod",ar:"الدفع عند الاستلام",en:"Cash on delivery",da:"إن كان متاحًا داخل مصر، ويُؤكَّد بعد تأكيد الطلب",de:"If available inside Egypt, confirmed after the order is confirmed"}
 ];
 var SHIP = [
  {k:"eg",ar:"شحن داخل مصر",en:"Delivery in Egypt",da:"التكلفة حسب المحافظة وتُؤكَّد قبل الدفع",de:"Cost depends on governorate, confirmed before payment"},
@@ -438,17 +436,11 @@ var XT={
   custBad:"أكمل أبعاد المقاس الخاص أولًا.",
   priceNote:"السعر إرشادي بواقع 30 دولارًا أمريكيًا للمتر المربع. لا يشمل الشحن أو الضرائب أو الرسوم الجمركية أو التخصيص. السعر والمقاس والتوفر النهائية يؤكدها فريق كافورا قبل الدفع، وهذا ليس عرض سعر ملزمًا.",
   sizeNote:"المقاسات المعروضة مقاسات مرجعية. القطع الجلدية الطبيعية تختلف قليلًا في المقاس الفعلي، ونؤكد المقاس النهائي بالصور قبل الدفع.",
-  regTitle:"الدولة والعملة", regBtn:"الدولة والعملة", regSearch:"ابحث عن دولة", regCur:"عملة العرض", regIntl:"دولية (دولار أمريكي)", regNone:"لا توجد نتائج", regCount:"نتيجة",
   regNote:"اختيار الدولة يحدد عملة العرض وملاحظات الشحن. هذا لا يعني أننا نشحن إلى كل دولة؛ يُؤكَّد التوفر لكل طلب.", regSave:"تم", regPref:"يُحفظ اختيارك على جهازك فقط.",
   fxUsd:"السعر المرجعي بالدولار الأمريكي.",
-  fxOk:"المبالغ بالعملة المحلية (≈) تقديرية بحسب سعر الصرف المرجعي بتاريخ {d} من {s}. السعر المرجعي بالدولار الأمريكي، ويُؤكَّد المبلغ النهائي وسعر الصرف في عرض السعر أو تأكيد الطلب.",
-  fxStale:"تعذّر تحديث سعر الصرف، فنعرض آخر سعر محفوظ بتاريخ {d} من {s}. المبالغ بالعملة المحلية تقديرية، ويُؤكَّد المبلغ النهائي في عرض السعر.",
-  fxSnap:"تعذّر الاتصال بخدمة أسعار الصرف، فنعرض سعرًا مرجعيًا مؤرّخًا في {d} من {s}. المبالغ تقديرية وقد تختلف عن سعر اليوم، ويُؤكَّد المبلغ النهائي في عرض السعر.",
-  fxNone:"تقدير العملة المحلية غير متاح الآن، لذلك نعرض الأسعار بالدولار الأمريكي.", fxLoading:"جارٍ تحميل سعر الصرف…",
-  fxSrc:"Frankfurter", fxSrc2:"ExchangeRate-API",
   shipDetail:"الشحن يُسعَّر لكل وجهة بعد إرسال الطلب. نؤكد التكلفة ومدة التوصيل قبل الدفع. الضرائب ورسوم الاستيراد والتخليص في بلد الوصول غير مشمولة.",
   shipEg:"داخل مصر: تكلفة التوصيل حسب المحافظة وحجم القطعة، وتُؤكَّد قبل الدفع.",
-  shipTo:"الشحن إلى {c}", dest1:"التوفر: نؤكد إمكانية الشحن إلى بلدك عند الطلب، فاختيار الدولة لا يعني أن الشحن متاح لكل دولة.",
+  shipTo:"الشحن إلى {c}", shipIntl:"الشحن الدولي", dest1:"التوفر: نؤكد إمكانية الشحن إلى بلدك عند الطلب، وقد لا يتوفر الشحن لكل دولة.",
   dest2:"الطريقة والتكلفة: تُسعَّر لكل شحنة (بريد سريع أو جوي للكميات الصغيرة، وشحن بحري للكميات الكبيرة). لا نعد بتكلفة أو موعد وصول قبل التأكيد.",
   dest3:"الرسوم والضرائب: ضريبة القيمة المضافة والرسوم الجمركية ومصاريف التخليص تحددها جمارك بلد الوصول وهي غير مشمولة في الأسعار المعروضة.",
   dest4:"المستندات: فاتورة تجارية وقائمة تعبئة بوصف دقيق للمنتج. قد تطلب بعض الدول مستندات إضافية للجلود والمنتجات الحيوانية مثل شهادة منشأ أو شهادة صحية بيطرية أو تصريح استيراد. نتحقق من متطلبات وجهتك قبل الشحن.",
@@ -462,8 +454,7 @@ var XT={
   statusNote:"هذا طلب أولي وليس طلبًا مؤكدًا. لا يبدأ التجهيز ولا يُحجز المنتج إلا بعد ردنا بالتأكيد وتأكيد استلام الدفع.",
   checkoutNote:"الأسعار المعروضة إرشادية. الشحن والضرائب والرسوم غير مشمولة، ويؤكد الفريق السعر والتوفر والشحن قبل الدفع.",
   cartSub:"المجموع الإرشادي", cartExcl:"لا يشمل الشحن أو الضرائب أو الرسوم أو المنتجات «السعر عند الطلب».", est:"تقدير", sizeLbl:"المقاس", perPiece:"للقطعة",
-  privFx:["الدولة والعملة","يُحفظ اختيارك للدولة والعملة على جهازك فقط. لعرض تقدير بالعملة المحلية يطلب متصفحك سعر الصرف من خدمة عامة (Frankfurter، وبديلها ExchangeRate-API) دون إرسال أي بيانات من نماذج الطلب."],
-  msgTitle:"طلب أولي جديد من متجر Kavora (غير مؤكد)", msgIndic:"السعر الإرشادي", msgSub:"المجموع الإرشادي", msgNoteSub:"لا يشمل الشحن والضرائب والرسوم، وليس عرض سعر ملزمًا.", msgDest:"الدولة المختارة", msgCur:"عملة العرض"
+  msgTitle:"طلب أولي جديد من متجر Kavora (غير مؤكد)", msgIndic:"السعر الإرشادي", msgSub:"المجموع الإرشادي", msgNoteSub:"لا يشمل الشحن والضرائب والرسوم، وليس عرض سعر ملزمًا.", msgDest:"الدولة المختارة", msgCurLine:"العملة: دولار أمريكي (USD)"
  },
  en:{
   zoomHint:"Tap an image to zoom", lbLabel:"Image viewer", lbIn:"Zoom in", lbOut:"Zoom out", lbReset:"Reset", lbPrev:"Previous", lbNext:"Next", lbClose:"Close",
@@ -475,17 +466,11 @@ var XT={
   custBad:"Complete the custom size dimensions first.",
   priceNote:"Indicative price at USD 30 per square metre. Shipping, taxes, import duties and customization are not included. Final price, size and availability are confirmed by Kavora before payment. This is not a binding quotation.",
   sizeNote:"Sizes shown are reference sizes. Natural leather varies slightly in actual size, and we confirm the final size with photos before payment.",
-  regTitle:"Country and currency", regBtn:"Country and currency", regSearch:"Search country", regCur:"Display currency", regIntl:"International (USD)", regNone:"No results", regCount:"results",
   regNote:"Your country sets the display currency and shipping notes. It does not mean we ship to every country; availability is confirmed per request.", regSave:"Done", regPref:"Your choice is saved on this device only.",
   fxUsd:"USD is the reference price.",
-  fxOk:"Local-currency amounts (≈) are estimates based on the reference exchange rate of {d} from {s}. USD is the reference price, and the final amount and exchange rate are confirmed in your quotation or order confirmation.",
-  fxStale:"We could not refresh the exchange rate, so this shows the last saved rate of {d} from {s}. Local-currency amounts are estimates; the final amount is confirmed in your quotation.",
-  fxSnap:"The exchange-rate service could not be reached, so this shows a reference rate dated {d} from {s}. Amounts are estimates and may differ from today's rate; the final amount is confirmed in your quotation.",
-  fxNone:"A local-currency estimate is not available right now, so prices are shown in USD.", fxLoading:"Loading exchange rate…",
-  fxSrc:"Frankfurter", fxSrc2:"ExchangeRate-API",
   shipDetail:"Shipping is quoted per destination after you send the request. We confirm cost and delivery time before payment. Taxes, import duties and clearance charges in the destination country are not included.",
   shipEg:"Inside Egypt: delivery cost depends on the governorate and the size of the piece, and is confirmed before payment.",
-  shipTo:"Shipping to {c}", dest1:"Availability: we confirm whether we can ship to your country when you send the request. Selecting a country does not mean shipping is available everywhere.",
+  shipTo:"Shipping to {c}", shipIntl:"International shipping", dest1:"Availability: we confirm whether we can ship to your country when you send the request. Shipping may not be available to every destination.",
   dest2:"Method and cost: quoted per shipment (courier or air for small quantities, sea freight for larger ones). We do not promise a cost or delivery date before confirmation.",
   dest3:"Duties and taxes: VAT, import duties and clearance charges are set by the destination customs authority and are not included in the prices shown.",
   dest4:"Documents: commercial invoice and packing list with an accurate product description. Some countries ask for extra documents for leather and animal-origin products, such as a certificate of origin, a veterinary health certificate or an import permit. We verify your destination's requirements before shipping.",
@@ -499,15 +484,13 @@ var XT={
   statusNote:"This is an order request, not a confirmed order. Preparation starts and the item is reserved only after we reply with confirmation and payment is confirmed as received.",
   checkoutNote:"Listed prices are indicative. Shipping, taxes and duties are not included, and the team confirms price, availability and shipping before payment.",
   cartSub:"Indicative subtotal", cartExcl:"Excludes shipping, taxes, duties and items marked price on request.", est:"estimate", sizeLbl:"Size", perPiece:"each",
-  privFx:["Country and currency","Your country and currency choice is saved on this device only. To show a local-currency estimate, your browser requests the exchange rate from a public service (Frankfurter, with ExchangeRate-API as a backup). No order-form data is sent to it."],
-  msgTitle:"New order request from Kavora Shop (not confirmed)", msgIndic:"Indicative price", msgSub:"Indicative subtotal", msgNoteSub:"Excludes shipping, taxes and duties. Not a binding quotation.", msgDest:"Selected country", msgCur:"Display currency"
+  msgTitle:"New order request from Kavora Shop (not confirmed)", msgIndic:"Indicative price", msgSub:"Indicative subtotal", msgNoteSub:"Excludes shipping, taxes and duties. Not a binding quotation.", msgDest:"Selected country", msgCurLine:"Currency: US dollars (USD)"
  }
 };
 function xt(k,v){var s=(XT[lang]||XT.en)[k];if(s==null)s=XT.en[k];if(v&&typeof s==="string")for(var q in v)s=s.split("{"+q+"}").join(v[q]);return s}
 T.ar.doneH="طلبك الأوّلي جاهز للإرسال"; T.en.doneH="Your order request is ready to send";
-T.ar.info.pay.p=[["الخيارات","بطاقة بنكية، إنستاباي، محفظة إلكترونية، حوالة بنكية دولية، أو الدفع عند الاستلام داخل مصر."],["كيف يتم","لا يُسحب أي مبلغ من هذا الموقع. بعد أن تُرسل طلبك على واتساب نؤكد التوفر والسعر والشحن، ثم نرسل تعليمات الدفع المناسبة لك."],["الأمان","لا نطلب رقم بطاقتك أو الرقم السري على واتساب أو في هذا الموقع."]];
-T.en.info.pay.p=[["Options","Bank card, InstaPay, mobile wallet, international bank transfer, or cash on delivery inside Egypt."],["How it works","Nothing is charged on this site. After you send your request on WhatsApp we confirm availability, price and shipping, then send the payment instructions that suit you."],["Safety","We never ask for your card number or PIN on WhatsApp or on this site."]];
-T.ar.info.priv.p.push(XT.ar.privFx); T.en.info.priv.p.push(XT.en.privFx);
+T.ar.info.pay.p=[["الخيارات","تُؤكَّد طرق الدفع المتاحة في رد الفريق على كل طلب، وقد تشمل حوالة بنكية. اختيارك في نموذج الطلب تفضيل فقط."],["كيف يتم","لا يُسحب أي مبلغ من هذا الموقع. بعد إرسال طلبك على واتساب نؤكد التوفر والسعر بالدولار والشحن، ثم نرسل تعليمات الدفع."],["الأمان","لا نطلب رقم بطاقتك أو الرقم السري على واتساب أو في هذا الموقع."]];
+T.en.info.pay.p=[["Options","Available payment methods are confirmed in our reply to each request, and may include bank transfer. Your choice in the request form is a preference only."],["How it works","Nothing is charged on this site. After you send your request on WhatsApp we confirm availability, the USD price and shipping, then send payment instructions."],["Safety","We never ask for your card number or PIN on WhatsApp or on this site."]];
 var lang="ar", cart=[], filter="all", cur=null, sel={}, qty=1, step="cart", form={}, heroI=0, heroTimer=null;
 var ad={tab:"products",edit:-1,dirty:false,confirm:"",imp:false,busy:false,msg:""};
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
@@ -616,7 +599,6 @@ function tr(){
   if($("panel").classList.contains("on"))renderPanel();
   if($("info").classList.contains("on")&&curInfo)renderInfo(curInfo);
   renderAnalyticsConsent(false);
-  if(typeof regLabel==="function"&&$("regBtn")){$("regBtn").textContent=regLabel();$("regBtn").setAttribute("aria-label",xt("regBtn")+": "+(region.c?regionName(region.c)+", ":"")+region.cur)}
 }
 /* hero */
 function slideLinkAct(l){
@@ -714,7 +696,7 @@ function waDirect(){
 }
 function renderDetail(){
   var p=cur, L=T[lang], ci=colorIdx(p,sel), n=(p.imgs||[]).length;
-   var h='<div class="dtop"><a class="logo" href="#top" data-close="1"><img src="./assets/images/logo.png" width="120" height="31" alt="Kavora Hide"></a><button type="button" class="pill reg" data-region="1" style="margin-inline-start:auto;margin-inline-end:8px">'+esc(regLabel())+'</button><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></div><div class="dbody"><div class="gal"><div class="gscroll" id="gscroll">';
+   var h='<div class="dtop"><a class="logo" href="#top" data-close="1"><img src="./assets/images/logo.png" width="120" height="31" alt="Kavora Hide"></a><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></div><div class="dbody"><div class="gal"><div class="gscroll" id="gscroll">';
   if(n)h+=p.imgs.map(function(s,i){return '<img src="'+s+'" alt="'+esc(p[lang].n)+'" data-zoom="'+i+'" tabindex="0" role="button" aria-label="'+esc(p[lang].n+" — "+xt("lbLabel"))+'">'}).join("");
   else h+=art(p,ci,"d");
   h+='</div>'+(n?'<span class="aichip">'+esc(L.imgNote)+'</span><span class="zhint">'+esc(xt("zoomHint"))+'</span>':"")+(n>1?'<span class="gcount" id="gcount">1 / '+n+'</span>':"")+'</div>'+(n?'<p class="aicap">'+esc(L.imgNoteLong)+'</p>':"")+'<div class="dinfo"><h2 id="dTitle">'+esc(p[lang].n)+'</h2>'+detailPrice(p);
@@ -762,7 +744,7 @@ function openPanel(){
 function renderPanel(){
   var L=T[lang],h="";
   if(step==="cart"){
-    h+='<header><h2 id="pTitle">'+esc(L.cart)+'</h2><button type="button" class="pill reg" data-region="1" style="margin-inline-start:auto;margin-inline-end:8px">'+esc(regLabel())+'</button><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></header>';
+    h+='<header><h2 id="pTitle">'+esc(L.cart)+'</h2><button type="button" class="x" data-close="1" aria-label="'+esc(L.close)+'">×</button></header>';
     if(!cart.length){h+='<p class="empty">'+esc(L.empty)+"</p>";}
     else{
       cart.forEach(function(l,i){var p=prod(l.id),u=unit(p,l.sel);
@@ -862,7 +844,7 @@ function buildMsg(){
   if(tt.legacy)lines.push("",(tt.all?(ar?"الإجمالي: ":"Total: "):(ar?"مجموع الأسعار المعلنة: ":"Listed subtotal: "))+money(tt.sum));
   if(!tt.hasUsd&&!tt.legacy)lines.push("",ar?"الأسعار: عند الطلب":"Prices: on request");
   lines.push("",(ar?"الاسم: ":"Name: ")+form.name,(ar?"الهاتف: ":"Phone: ")+form.phone,(ar?"الدولة: ":"Country: ")+form.country);
-  if(region.c||region.cur!=="USD")lines.push(xt("msgDest")+": "+(region.c?regionName(region.c):xt("regIntl"))+" · "+xt("msgCur")+": "+region.cur+(fx.status==="ok"||fx.status==="stale"||fx.status==="snapshot"?" ("+fx.date+")":""));
+  lines.push(xt("msgCurLine"));
   if(orderSubmission.id)lines.push((ar?"رقم الطلب: ":"Order request ID: ")+orderSubmission.id);
   if(form.city)lines.push((ar?"المحافظة/المدينة: ":"City: ")+form.city);
   lines.push((ar?"العنوان: ":"Address: ")+form.addr,(ar?"الشحن: ":"Shipping: ")+lab(SHIP,form.ship),(ar?"الدفع: ":"Payment: ")+lab(PAY,form.pay));
@@ -890,7 +872,7 @@ function showSheet(w){
   document.body.style.overflow="hidden";
 }
 function closeAllSilent(){
-  if($("region"))$("region").classList.remove("on");if(window.closeLbSafe)closeLbSafe();
+  if(window.closeLbSafe)closeLbSafe();
   $("ov").classList.remove("on");SHEETS.forEach(function(s){$(s).classList.remove("on")});
   document.body.style.overflow="";
 }
@@ -1166,79 +1148,19 @@ function sizeInfo(p,s){
   r.valid=true;r.area=areaM2(sh,ac,bc);r.usd=usdFor(r.area);r.dims=dimTxt(sh,a,b,u);r.cm=[ac,bc];
   return r;
 }
-/* --- countries and currencies (ISO 3166-1 alpha-2 and ISO 4217) --- */
-var CC=("AF:AFN AX:EUR AL:ALL DZ:DZD AS:USD AD:EUR AO:AOA AI:XCD AG:XCD AR:ARS AM:AMD AW:AWG AU:AUD AT:EUR AZ:AZN BS:BSD BH:BHD BD:BDT BB:BBD BY:BYN BE:EUR BZ:BZD BJ:XOF BM:BMD BT:BTN BO:BOB BQ:USD BA:BAM BW:BWP BR:BRL IO:USD BN:BND BG:EUR BF:XOF BI:BIF "+
-"CV:CVE KH:KHR CM:XAF CA:CAD KY:KYD CF:XAF TD:XAF CL:CLP CN:CNY CX:AUD CC:AUD CO:COP KM:KMF CG:XAF CD:CDF CK:NZD CR:CRC CI:XOF HR:EUR CU:CUP CW:ANG CY:EUR CZ:CZK DK:DKK DJ:DJF DM:XCD DO:DOP EC:USD EG:EGP SV:USD GQ:XAF ER:ERN EE:EUR SZ:SZL ET:ETB "+
-"FK:FKP FO:DKK FJ:FJD FI:EUR FR:EUR GF:EUR PF:XPF GA:XAF GM:GMD GE:GEL DE:EUR GH:GHS GI:GIP GR:EUR GL:DKK GD:XCD GP:EUR GU:USD GT:GTQ GG:GBP GN:GNF GW:XOF GY:GYD HT:HTG VA:EUR HN:HNL HK:HKD HU:HUF IS:ISK IN:INR ID:IDR IR:IRR IQ:IQD IE:EUR IM:GBP IL:ILS IT:EUR "+
-"JM:JMD JP:JPY JE:GBP JO:JOD KZ:KZT KE:KES KI:AUD KP:KPW KR:KRW KW:KWD KG:KGS LA:LAK LV:EUR LB:LBP LS:LSL LR:LRD LY:LYD LI:CHF LT:EUR LU:EUR MO:MOP MG:MGA MW:MWK MY:MYR MV:MVR ML:XOF MT:EUR MH:USD MQ:EUR MR:MRU MU:MUR YT:EUR MX:MXN FM:USD MD:MDL MC:EUR MN:MNT ME:EUR MS:XCD MA:MAD MZ:MZN MM:MMK "+
-"NA:NAD NR:AUD NP:NPR NL:EUR NC:XPF NZ:NZD NI:NIO NE:XOF NG:NGN NU:NZD NF:AUD MK:MKD MP:USD NO:NOK OM:OMR PK:PKR PW:USD PS:ILS PA:PAB PG:PGK PY:PYG PE:PEN PH:PHP PN:NZD PL:PLN PT:EUR PR:USD QA:QAR RE:EUR RO:RON RU:RUB RW:RWF "+
-"BL:EUR SH:SHP KN:XCD LC:XCD MF:EUR PM:EUR VC:XCD WS:WST SM:EUR ST:STN SA:SAR SN:XOF RS:RSD SC:SCR SL:SLE SG:SGD SX:ANG SK:EUR SI:EUR SB:SBD SO:SOS ZA:ZAR SS:SSP ES:EUR LK:LKR SD:SDG SR:SRD SJ:NOK SE:SEK CH:CHF SY:SYP "+
-"TW:TWD TJ:TJS TZ:TZS TH:THB TL:USD TG:XOF TK:NZD TO:TOP TT:TTD TN:TND TR:TRY TM:TMT TC:USD TV:AUD UG:UGX UA:UAH AE:AED GB:GBP US:USD UY:UYU UZ:UZS VU:VUV VE:VES VN:VND VG:USD VI:USD WF:XPF EH:MAD YE:YER ZM:ZMW ZW:ZWG XK:EUR").split(" ").map(function(x){var a=x.split(":");return {c:a[0],cur:a[1]}});
-var CURS=(function(){var o={USD:1};CC.forEach(function(r){o[r.cur]=1});return Object.keys(o).sort()})();
-function ccCur(c){for(var i=0;i<CC.length;i++)if(CC[i].c===c)return CC[i].cur;return "USD"}
-function regionName(c,lg){try{return new Intl.DisplayNames([lg||lang],{type:"region"}).of(c)||c}catch(e){return c}}
-function curName(c){try{return new Intl.DisplayNames([lang],{type:"currency"}).of(c)||c}catch(e){return c}}
 var region={c:"",cur:"USD"};
-function loadRegion(){
-  var s=null;try{s=JSON.parse(lsGet("kavora-region")||"null")}catch(e){}
-  if(s&&typeof s.cur==="string"&&CURS.indexOf(s.cur)>-1&&(s.c===""||CC.some(function(r){return r.c===s.c}))){region={c:s.c||"",cur:s.cur};return}
-  region=lang==="ar"?{c:"EG",cur:"EGP"}:{c:"",cur:"USD"};
-}
-function saveRegion(){lsSet("kavora-region",JSON.stringify(region))}
-/* --- exchange rates: Frankfurter (primary), ExchangeRate-API (backup), saved rate, dated snapshot, else USD only --- */
-var FX_SNAPSHOT={EGP:{r:53.319,d:"2026-10-16"}};
-var fx={cur:"USD",rate:1,date:"",src:"",status:"usd"},fxSeq=0;
-function fxFresh(ms,h){return Date.now()-ms<h*3600*1000}
-function fxFetch(url,pick){
-  var ac=window.AbortController?new AbortController():null,to=ac?setTimeout(function(){ac.abort()},6000):null;
-  return fetch(url,{signal:ac?ac.signal:undefined,cache:"no-store"}).then(function(r){if(to)clearTimeout(to);if(!r.ok)throw new Error("http "+r.status);return r.json()}).then(pick);
-}
-function fxLoad(cur,done){
-  var seq=++fxSeq;
-  function set(o){if(seq!==fxSeq)return;fx=o;done&&done()}
-  if(cur==="USD"){set({cur:"USD",rate:1,date:"",src:"",status:"usd"});return}
-  var cache=null;try{cache=JSON.parse(lsGet("kavora-fx-"+cur)||"null")}catch(e){}
-  if(cache&&cache.r>0&&fxFresh(cache.t,6)){set({cur:cur,rate:cache.r,date:cache.d,src:cache.s,status:"ok"});return}
-  set({cur:cur,rate:0,date:"",src:"",status:"loading"});
-  function ok(r,d,s){if(!(r>0))throw new Error("bad rate");lsSet("kavora-fx-"+cur,JSON.stringify({r:r,d:d,s:s,t:Date.now()}));set({cur:cur,rate:r,date:d,src:s,status:"ok"})}
-  function fail(){
-    if(cache&&cache.r>0&&Date.now()-cache.t<7*86400000){set({cur:cur,rate:cache.r,date:cache.d,src:cache.s,status:"stale"});return}
-    var sn=FX_SNAPSHOT[cur];
-    if(sn&&Date.now()-Date.parse(sn.d)<30*86400000){set({cur:cur,rate:sn.r,date:sn.d,src:"Frankfurter",status:"snapshot"});return}
-    set({cur:cur,rate:0,date:"",src:"",status:"none"});
-    trackEvent("fx_unavailable",{currency:cur});
-  }
-  fxFetch("https://api.frankfurter.dev/v2/rates?base=USD&quotes="+encodeURIComponent(cur),function(j){
-    var row=Array.isArray(j)?j.filter(function(x){return x&&x.quote===cur})[0]:null;
-    if(!row)throw new Error("no rate");ok(+row.rate,String(row.date),"Frankfurter");
-  }).catch(function(){
-    return fxFetch("https://open.er-api.com/v6/latest/USD",function(j){
-      if(!j||j.result!=="success"||!j.rates||!(j.rates[cur]>0))throw new Error("no rate");
-      var d=new Date(j.time_last_update_utc);ok(+j.rates[cur],isNaN(d)?"":d.toISOString().slice(0,10),"ExchangeRate-API");
-    });
-  }).catch(fail);
-}
+var fx={cur:"USD",rate:1,date:"",src:"",status:"usd"};
+function regionDefaultCountry(){return lang==="ar"?"مصر":"Egypt"}
 function fmtCur(cur,v,est){
   var o={style:"currency",currency:cur,currencyDisplay:"code"};
   if(est&&Math.abs(v)>=50){o.maximumFractionDigits=0;o.minimumFractionDigits=0}
   try{return new Intl.NumberFormat(lang==="ar"?"ar-EG-u-nu-latn":"en-US",o).format(v)}catch(e){return cur+" "+v.toFixed(2)}
 }
 function usdTxt(v){return fmtCur("USD",v,false)}
-function estTxt(v){return (fx.cur!=="USD"&&fx.rate>0)?"≈ "+fmtCur(fx.cur,v*fx.rate,true):""}
+function estTxt(v){return ""}
 function bdi(s){return "<bdi>"+esc(s)+"</bdi>"}
 function priceBlock(v,from){var e=estTxt(v);return '<span class="price">'+(from?esc(xt("fromL"))+" ":"")+bdi(usdTxt(v))+(e?'<small class="est">'+bdi(e)+"</small>":"")+"</span>"}
-function fxNoteHtml(){
-  var m;
-  if(fx.cur==="USD"||region.cur==="USD")m=xt("fxUsd");
-  else if(fx.status==="loading")m=xt("fxLoading");
-  else if(fx.status==="ok")m=xt("fxOk",{d:fx.date,s:fx.src});
-  else if(fx.status==="stale")m=xt("fxStale",{d:fx.date,s:fx.src});
-  else if(fx.status==="snapshot")m=xt("fxSnap",{d:fx.date,s:fx.src});
-  else m=xt("fxNone");
-  var h='<p class="note fxn" id="fxNote">'+esc(m);
-  if(fx.src==="ExchangeRate-API")h+=' <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates By Exchange Rate API</a>';
-  return h+"</p>";
-}
+function fxNoteHtml(){return '<p class="note fxn">'+esc(xt("fxUsd"))+"</p>"}
 /* --- product page pieces --- */
 function gridPrice(p){
   if(isSqm(p)){var sh=rugShape(p),mn=Math.min.apply(null,[0,1,2].map(function(i){return sizeInfo(p,{size:i}).usd}));return priceBlock(mn,true)}
@@ -1275,7 +1197,6 @@ function detailNotes(p){
   var h='<div class="dnote">';
   if(isSqm(p))h+="<p>"+esc(xt("priceNote"))+"</p>"+fxNoteHtml();
   h+="<p>"+esc(xt("shipDetail"))+"</p>";
-  if(region.c==="EG")h+="<p>"+esc(xt("shipEg"))+"</p>";
   return h+"</div>";
 }
 function sizeText(p,s){
@@ -1320,65 +1241,16 @@ function refreshSizeUi(){
   var w=$("waNow");if(w)w.href=waDirect();
 }
 function refreshAfterFx(){
-  $("regBtn").textContent=regLabel();$("regBtn").setAttribute("aria-label",xt("regBtn")+": "+(region.c?regionName(region.c)+", ":"")+region.cur);
   renderGrid();
   if($("detail").classList.contains("on")&&cur){var ae=document.activeElement,key=ae&&ae.dataset&&ae.dataset.cu;renderDetail();if(key){var re=document.querySelector('[data-cu="'+key+'"]');if(re)re.focus()}}
   if($("panel").classList.contains("on"))renderPanel();
-  if($("region").classList.contains("on"))renderRegion(true);
 }
-function regLabel(){return (region.c?region.c+" · ":"")+region.cur}
-/* --- region sheet --- */
-var regQ="";
-function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
-function renderRegion(keep){
-  var L=T[lang],list=CC.map(function(r){return {c:r.c,cur:r.cur,n:regionName(r.c)}}).sort(function(a,b){return a.n.localeCompare(b.n,lang)});
-  var q=norm(regQ);if(q)list=list.filter(function(r){return norm(r.n).indexOf(q)>-1||norm(r.c)===q||norm(r.cur)===q});
-  if(keep&&$("rq")){
-    $("rlist").innerHTML=rlistHtml(list);$("rcount").textContent=list.length+" "+xt("regCount");
-    var cs=$("rcur");if(cs)cs.value=region.cur;var fn=$("rfx");if(fn)fn.innerHTML=fxNoteHtml();return;
-  }
-  var h='<div class="rin"><header><h2 id="rTitle">'+esc(xt("regTitle"))+'</h2><button type="button" class="x" data-rclose="1" aria-label="'+esc(L.close)+'">×</button></header>'+
-   '<p class="note">'+esc(xt("regNote"))+"</p>"+
-   '<label class="fld"><span>'+esc(xt("regSearch"))+'</span><input id="rq" type="search" autocomplete="off" value="'+esc(regQ)+'"></label>'+
-   '<p class="note" id="rcount" role="status">'+list.length+" "+esc(xt("regCount"))+"</p>"+
-   '<div class="rlist" id="rlist">'+rlistHtml(list)+"</div>"+
-   '<label class="fld"><span>'+esc(xt("regCur"))+'</span><select id="rcur">'+CURS.map(function(c){return '<option value="'+c+'"'+(c===region.cur?" selected":"")+">"+c+" — "+esc(curName(c))+"</option>"}).join("")+"</select></label>"+
-   '<div id="rfx">'+fxNoteHtml()+'</div><p class="note">'+esc(xt("regPref"))+'</p>'+
-   '<button type="button" class="btn" style="width:100%;margin-top:10px" data-rclose="1">'+esc(xt("regSave"))+"</button></div>";
-  $("region").innerHTML=h;
-}
-function rlistHtml(list){
-  if(!list.length)return '<p class="empty">'+esc(xt("regNone"))+"</p>";
-  var h='<button type="button" data-rc="" aria-pressed="'+(region.c===""&&region.cur==="USD")+'"><span>'+esc(xt("regIntl"))+"</span><small>USD</small></button>";
-  return h+list.map(function(r){return '<button type="button" data-rc="'+r.c+'" aria-pressed="'+(region.c===r.c)+'"><span>'+esc(r.n)+"</span><small>"+r.cur+"</small></button>"}).join("");
-}
-var regOpener=null;
-function openRegion(){
-  regOpener=document.activeElement;regQ="";renderRegion(false);
-  $("ov").classList.add("on");$("region").classList.add("on");document.body.style.overflow="hidden";
-  setTimeout(function(){var q=$("rq");if(q)q.focus()},30);
-  trackEvent("region_open",{language:lang});
-}
-function closeRegion(){
-  $("region").classList.remove("on");
-  if(!SHEETS.some(function(s){return $(s).classList.contains("on")})){$("ov").classList.remove("on");document.body.style.overflow=""}
-  if(regOpener&&regOpener.focus)try{regOpener.focus()}catch(e){}
-}
-function setRegion(c,cur){
-  region={c:c,cur:cur};saveRegion();
-  if(form&&c)form.country=regionName(c);
-  fxLoad(cur,refreshAfterFx);refreshAfterFx();
-  trackEvent("region_change",{country:c||"intl",currency:cur});
-}
-function regionDefaultCountry(){return region.c?regionName(region.c):(lang==="ar"?"مصر":"Egypt")}
 /* --- destination notes (shipping page) --- */
 function infoExtra(k){
   var L=T[lang],h="";
   if(k==="ship"){
-    h+="<h3>"+esc(region.c?xt("shipTo",{c:regionName(region.c)}):xt("regIntl"))+"</h3>";
-    if(region.c==="EG")h+="<p>"+esc(xt("destEg"))+"</p>";
-    else h+=[xt("dest1"),xt("dest2"),xt("dest3"),xt("dest4"),xt("dest5"),xt("wholesale")].map(function(s){return "<p>"+esc(s)+"</p>"}).join("");
-    h+='<p><button type="button" class="btn alt sm" data-region="1">'+esc(xt("regBtn"))+"</button></p>";
+    h+="<h3>"+esc(xt("shipIntl"))+"</h3>";
+    h+=[xt("dest1"),xt("dest2"),xt("dest3"),xt("dest4"),xt("dest5"),xt("wholesale")].map(function(s){return "<p>"+esc(s)+"</p>"}).join("");
   }
   if(k==="pay"){
     h+="<h3>"+esc(xt("payFlowH"))+'</h3><ol class="flowsteps">'+xt("flow").map(function(s){return "<li>"+esc(s)+"</li>"}).join("")+"</ol><p>"+esc(xt("proof"))+"</p>";
@@ -1467,7 +1339,6 @@ function lbZoom(f){lb.s*=f;lbApply()}
       }
       return;
     }
-    if($("region").classList.contains("on")&&e.key==="Escape"){e.stopImmediatePropagation();closeRegion()}
   },true);
 })();
 /* --- events for the new controls --- */
@@ -1476,17 +1347,12 @@ document.addEventListener("click",function(e){
   if(z){e.preventDefault();openLb(+z.dataset.zoom,z);return}
   var s=e.target.closest("[data-sz]");
   if(s&&cur&&isSqm(cur)){sel.size=+s.dataset.sz;if(sel.size===3&&!sel.cust)sel.cust={unit:"cm",a:"",b:""};renderDetail();trackEvent("size_select",{product_id:cur.id,size_index:sel.size});return}
-  if(e.target.closest("[data-region]")||e.target.closest("#regBtn")){e.preventDefault();openRegion();return}
-  if(e.target.closest("[data-rclose]")){closeRegion();return}
-  var rc=e.target.closest("[data-rc]");
-  if(rc){var c=rc.dataset.rc;setRegion(c,c?ccCur(c):"USD");return}
 });
 document.addEventListener("keydown",function(e){
   if((e.key==="Enter"||e.key===" ")&&e.target.dataset&&e.target.dataset.zoom!==undefined){e.preventDefault();openLb(+e.target.dataset.zoom,e.target)}
 });
 document.addEventListener("input",function(e){
   var el=e.target;
-  if(el.id==="rq"){regQ=el.value;renderRegion(true);return}
   if(el.dataset&&el.dataset.cu&&cur){
     if(!sel.cust)sel.cust={unit:"cm",a:"",b:""};sel.cust[el.dataset.cu]=el.value;
     var si=sizeInfo(cur,sel);document.querySelectorAll("[data-cu=a],[data-cu=b]").forEach(function(i){i.setAttribute("aria-invalid",String(!si.valid&&si.err!=="empty"))});
@@ -1496,7 +1362,6 @@ document.addEventListener("input",function(e){
 });
 document.addEventListener("change",function(e){
   var el=e.target;
-  if(el.id==="rcur"){setRegion(region.c,el.value);return}
   if(el.dataset&&el.dataset.cu==="unit"&&cur){sel.cust.unit=el.value;refreshSizeUi()}
 });
 
@@ -1546,7 +1411,6 @@ window.addEventListener("hashchange",route);
 /* ===== INIT ===== */
 (function(){
   var l=lsGet("kavora-lang");if(l==="ar"||l==="en")lang=l;
-  loadRegion();fxLoad(region.cur,refreshAfterFx);
   try{var c=JSON.parse(lsGet("kavora-cart")||"[]");if(Array.isArray(c))cart=c.filter(function(x){return x&&prod(x.id)&&x.sel&&x.qty>0})}catch(e){}
   lsRemove("kavora-form");
   tr();route();
