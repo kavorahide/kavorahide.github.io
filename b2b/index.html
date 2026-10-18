@@ -450,7 +450,8 @@ function alerts(msg){
   var A=CFG.alerts||{},title="B2B inquiry: "+val("r_name")+" ("+val("r_country")+")";
   try{
     if(A.web3formsKey)fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:A.web3formsKey,subject:title,from_name:"Kavora Hide B2B",name:val("r_name"),email:val("r_email"),message:msg})}).catch(function(){});
-    if(A.ntfyTopic)fetch("https://ntfy.sh/",{method:"POST",body:JSON.stringify({topic:A.ntfyTopic,title:title,message:msg,priority:4})}).catch(function(){});
+    if(A.ntfyTopic)fetch("https://ntfy.sh/",{method:"POST",body:JSON.stringify({topic:A.ntfyTopic,title:title,message:val("r_prod")+" · "+val("r_qty")+" · "+val("r_inc")+" · open your sheet for contact details",priority:4})}).catch(function(){});
+    if(A.ordersWebhook)fetch(A.ordersWebhook,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({type:"b2b",lang:LANG,name:val("r_name"),company:val("r_co"),country:val("r_country"),email:val("r_email"),phone:val("r_phone"),product:val("r_prod"),qty:val("r_qty"),incoterm:val("r_inc"),service:val("r_srv"),dest:val("r_dest"),message:val("r_msg")})}).catch(function(){});
   }catch(e){}
 }
 $("rfqForm").addEventListener("submit",function(e){

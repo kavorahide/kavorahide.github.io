@@ -7,5 +7,5 @@ window.KAVORA_CONFIG = Object.freeze({
   ga4MeasurementId: "G-94DZ8WMHMZ",
   // Payment numbers shown for orders inside Egypt only. Public receiving details, not credentials.
   payment: Object.freeze({ instapay: "01007353900", wallet: "01007353900" }),
-  alerts: Object.freeze({ web3formsKey: "", ntfyTopic: "" }),
+  alerts: Object.freeze({ web3formsKey: "", ntfyTopic: "kavora-32e4247716b7c710b736", ordersWebhook: "" }),
 });

@@ -827,7 +827,21 @@ async function onSubmit(e){
       trackEvent("order_submission_unconfirmed",{reason:"api_unavailable"});
     }
   }
+  notifyOrder();
   step="done";renderPanel();$("panel").scrollTop=0;
+}
+var notifiedKey="";
+function notifyOrder(){
+  if(notifiedKey===orderSubmissionKey)return;notifiedKey=orderSubmissionKey;
+  try{
+    var A=(window.KAVORA_CONFIG&&window.KAVORA_CONFIG.alerts)||{},tt=totals();
+    var total=tt.hasUsd?usdTxt(tt.usd):(tt.legacy?money(tt.sum):"");
+    var items=cart.map(function(l){var p=prod(l.id);return p.ar.n+" x"+l.qty+" ("+lineLabel(l)+")"}).join(" | ");
+    var ref=orderSubmissionKey.slice(0,8).toUpperCase();
+    if(A.ntfyTopic)fetch("https://ntfy.sh/",{method:"POST",body:JSON.stringify({topic:A.ntfyTopic,title:"طلب جديد "+ref,message:cart.map(function(l){return prod(l.id).ar.n+" x"+l.qty}).join(", ")+(total?" · "+total:"")+" · "+form.country+" · التفاصيل في الجدول",priority:4})}).catch(function(){});
+    if(A.ordersWebhook)fetch(A.ordersWebhook,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({type:"retail",ref:ref,lang:lang,name:form.name,phone:form.phone,country:form.country,city:form.city,address:form.addr,shipping:lab(SHIP,form.ship),payment:lab(PAY,form.pay),items:items,total:total,currency:cmode(),notes:form.notes})}).catch(function(){});
+    trackEvent("order_alert_sent",{});
+  }catch(e){}
 }
 function lab(arr,k){for(var i=0;i<arr.length;i++)if(arr[i].k===k)return arr[i][lang];return k}
 function newSubmissionId(){
